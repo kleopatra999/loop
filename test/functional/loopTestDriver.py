@@ -18,7 +18,7 @@ DEFAULT_WAIT_TIMEOUT = 10
 
 
 class LoopTestDriver():
-    def setUp(self):
+    def setUp(self, extra_prefs={}):
         caps = DesiredCapabilities.FIREFOX
 
         # Tell the Python bindings to use Marionette.
@@ -42,6 +42,9 @@ class LoopTestDriver():
         # use enforce_gecko_prefs (which would restart), as we need to restart
         # for the add-on installation anyway.
         for prefName, prefValue in FIREFOX_PREFERENCES.iteritems():
+            profile.set_preference(prefName, prefValue)
+
+        for prefName, prefValue in extra_prefs.iteritems():
             profile.set_preference(prefName, prefValue)
 
         profile.add_extension(os.environ.get("LOOP_XPI_FILE"))

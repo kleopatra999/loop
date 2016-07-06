@@ -16,14 +16,12 @@ class Test2Linkclicker(LoopTestDriver, unittest.TestCase):
         # start server
         self.loop_test_servers = LoopTestServers()
 
-        from config import FIREFOX_PREFERENCES
-
+        # Set the standalone url for these tests.
         standalone_url = CONTENT_SERVER_URL + "/"
-        FIREFOX_PREFERENCES["loop.linkClicker.url"] = standalone_url
-        # No trailing slash on this one.
-        FIREFOX_PREFERENCES["webchannel.allowObject.urlWhitelist"] = CONTENT_SERVER_URL
-
-        LoopTestDriver.setUp(self)
+        LoopTestDriver.setUp(self, extra_prefs={
+            "loop.linkClicker.url": standalone_url,
+            "webchannel.allowObject.urlWhitelist": CONTENT_SERVER_URL
+        })
 
         self.e10s_enabled = os.environ.get("TEST_E10S") == "1"
 
