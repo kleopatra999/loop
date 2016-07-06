@@ -165,34 +165,6 @@ class LoopTestDriver():
 
     def get_text_from_clipboard(self):
         return pyperclip.paste()
-        """
-        This assumes we're already in the chrome context!
-        """
-
-        """
-        script = ("""
-        """
-var clipboard = Components.classes["@mozilla.org/widget/clipboard;1"]
-                          .getService(Components.interfaces.nsIClipboard);
-var trans = Components.classes["@mozilla.org/widget/transferable;1"]
-                      .createInstance(Components.interfaces.nsITransferable);
-
-trans.init(null);
-trans.addDataFlavor("text/unicode");
-
-clipboard.getData(trans, clipboard.kGlobalClipboard);
-
-var str = new Object();
-var strLength = new Object();
-trans.getTransferData("text/unicode", str, strLength);
-
-if (str)
-  str = str.value.QueryInterface(Components.interfaces.nsISupportsString);
-
-return str ? str.data.substring(0, strLength.value / 2) : "";
-""" """)
-        return self.driver.execute_script(script)
-"""
 
     def local_get_and_verify_room_url(self):
         self.switch_to_chatbox()
